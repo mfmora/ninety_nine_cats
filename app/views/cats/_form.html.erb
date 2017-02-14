@@ -1,28 +1,33 @@
-<form action="/cats" method="post">
+<form action="/cats<%= "/#{cat.id}" if action == :edit %>" method="post">
+  <% if action == :edit %>
+  <input type="hidden" name="_method" value="PATCH">
+  <% end %>
   <label for="name">Name:</label>
-  <input id="name" type="text" name="cat[name]">
+  <input id="name" type="text" name="cat[name]" value="<%= cat.name %>">
   <br><br>
   <label for="birth_date">Birth date:</label>
-  <input id="birth_date" type="date" name="cat[birth_date]">
+  <input id="birth_date" type="date" name="cat[birth_date]" value="<%= cat.birth_date %>">
   <br><br>
   <label for="color">Color:</label>
-  <input id="color" type="color" name="cat[color]">
+  <input id="color" type="color" name="cat[color]" value="<%= cat.color %>">
   <br><br>
 
   Sex:
   <br>
   <label for="cat_sex_female">Female</label>
-  <input type="radio" name="cat[sex]" id="cat_sex_female" value="F">
+  <input type="radio" name="cat[sex]" id="cat_sex_female" value="F" <%= cat.sex == "F" ? "checked" : "" %> >
   <br>
   <label for="cat_sex_male">Male</label>
-  <input type="radio" name="cat[sex]" id="cat_sex_male" value="M">
+  <input type="radio" name="cat[sex]" id="cat_sex_male" value="M" <%= cat.sex == "M" ? "checked" : "" %> >
   <br>
   <label for="cat_sex_trans">Trans</label>
-  <input type="radio" name="cat[sex]" id="cat_sex_trans" value="T">
+  <input type="radio" name="cat[sex]" id="cat_sex_trans" value="T" <%= cat.sex == "T" ? "checked" : "" %> >
 
   <br><br>
   <label for="description">Description:</label>
-  <textarea name="cat[description]" id="description"></textarea>
+  <textarea name="cat[description]" id="description">
+  <%= cat.description %>
+  </textarea>
   <br><br>
-  <input type="submit" value="Create cat">
+  <input type="submit" value="<%= action == :new ? "Add Cat" : "Update Cat" %>">
 </form>
