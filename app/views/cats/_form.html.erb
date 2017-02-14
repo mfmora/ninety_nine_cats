@@ -1,0 +1,28 @@
+<form action="/cats" method="post">
+  <label for="name">Name:</label>
+  <input id="name" type="text" name="cat[name]">
+  <br><br>
+  <label for="birth_date">Birth date:</label>
+  <input id="birth_date" type="date" name="cat[birth_date]">
+  <br><br>
+  <label for="color">Color:</label>
+  <input id="color" type="color" name="cat[color]">
+  <br><br>
+
+  Sex:
+  <br>
+  <label for="cat_sex_female">Female</label>
+  <input type="radio" name="cat[sex]" id="cat_sex_female" value="F">
+  <br>
+  <label for="cat_sex_male">Male</label>
+  <input type="radio" name="cat[sex]" id="cat_sex_male" value="M">
+  <br>
+  <label for="cat_sex_trans">Trans</label>
+  <input type="radio" name="cat[sex]" id="cat_sex_trans" value="T">
+
+  <br><br>
+  <label for="description">Description:</label>
+  <textarea name="cat[description]" id="description"></textarea>
+  <br><br>
+  <input type="submit" value="Create cat">
+</form>
