@@ -33,12 +33,23 @@
       <td>Start date</td>
       <td>End date</td>
       <td>Status</td>
+      <td></td>
     </tr>
     <% @cat.sorted_rentals.each do |rental| %>
       <tr>
         <td><%= rental.start_date %></td>
         <td><%= rental.end_date %></td>
         <td><%= rental.status %></td>
+        <td>
+          <% if rental.pending? %>
+            <form action="/cat_rental_requests<%= "/#{rental.id}" %>" method="post">
+            <input type="hidden" name="_method" value="PATCH">
+
+            <input type="submit" value="Deny">
+            <input type="submit" value="Approve">
+            </form>
+          <% end %>
+        </td>
       </tr>
     <% end %>
   </table>

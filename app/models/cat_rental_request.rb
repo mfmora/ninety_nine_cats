@@ -28,9 +28,11 @@ class CatRentalRequest < ActiveRecord::Base
 
   # TODO: Optimize this by querying SQL once
   def cat_available?
-    self.cat.approved_requests.none? do |request|
-      (start_date - request.end_date) * (request.start_date - end_date) >= 0
+    self.cat.approved_requests.each do |request|
+      #next if request == self
+      return false if (start_date - request.end_date) * (request.start_date - end_date) >= 0
     end
+    true
   end
 
   def cat_unavailable
@@ -39,5 +41,23 @@ class CatRentalRequest < ActiveRecord::Base
     end
   end
 
+  def approve!
+    CatRentalRequest.transaction do
+      conflicting_requests.each do |request|
+        request.update_attributes(status: "DENIED")
+      end
+      self.update_attributes(status: "APPROVED")
+    end
+  end
+
+  def pending?
+    self.status == "PENDING"
+  end
+
+  def conflicting_requests
+    self.cat.cat_rental_requests.select do |request|
+      ((start_date - request.end_date) * (request.start_date - end_date) >= 0) && (request != self)
+    end
+  end
 
 end
